@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+
+  news-seeder-client:
+    image: news-seeder-client
+    hostname: seeder-client
+    ports:
+      - "80"
+    restart: on-failure
