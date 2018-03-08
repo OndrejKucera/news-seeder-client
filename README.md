@@ -26,4 +26,3 @@ docker build -t news-seeder-client .
 
 ## Dependency tree
 - dependencyTree
->>>>>>> service runs in docker
