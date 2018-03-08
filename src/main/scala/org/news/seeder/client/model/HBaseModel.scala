@@ -1,4 +1,4 @@
-package org.news.seeder.client.http
+package org.news.seeder.client.model
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.client._
@@ -6,7 +6,7 @@ import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.hbase.{CellUtil, HBaseConfiguration, TableName}
 
 
-object HBaseService {
+object HBaseModel {
 
   // TODO: config -> zookeper, table_name
 

@@ -4,7 +4,7 @@ name := "news-seeder-client"
 organization := "org.news"
 
 version := "0.1.0"
-scalaVersion := "2.12.4"
+scalaVersion := "2.11.12"
 
 scalacOptions ++= Seq(
   "-encoding",
@@ -38,17 +38,14 @@ scalacOptions ++= Seq(
   "-Ywarn-unused"
 )
 
-val akkaV = "2.5.9"
 val akkaHttpV = "10.0.11"
-val scalaTestV = "3.0.4"
 
 resolvers ++= Seq(
-  "Apache Repository" at "https://repository.apache.org/content/repositories/releases/",
+  "Apache Repository" at "https://repository.apache.org/content/repositories/releases/"
 )
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka"   %% "akka-http"     % akkaHttpV  % "compile",
-  "org.scalatest"       %% "scalatest"     % scalaTestV % "test",
+  "com.typesafe.akka" %% "akka-http" % akkaHttpV,
 
   "org.apache.hadoop"   % "hadoop-common"  % "2.7.5"
     exclude ("com.google.guava", "guava")
@@ -56,6 +53,10 @@ libraryDependencies ++= Seq(
   "org.apache.hbase"    % "hbase-common"   % "1.4.0",
   "org.apache.hbase"    % "hbase-client"   % "1.4.0"
 )
+
+coverageMinimum := 80
+coverageFailOnMinimum := true
+coverageEnabled := true
 
 // use /tmp for building assembly to avoid IO between docker vm and host
 assemblyOption in assembly := (assemblyOption in assembly).value
@@ -66,5 +67,4 @@ assemblyMergeStrategy in assembly := {
   case x =>
     val oldStrategy = (assemblyMergeStrategy in assembly).value
     oldStrategy(x)
-
 }
