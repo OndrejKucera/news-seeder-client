@@ -3,6 +3,7 @@ package org.news.seeder.client.http
 import akka.http.scaladsl.model.{HttpEntity, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import org.news.seeder.client.model.HBaseModel
 
 class SeederHttpService() {
 
@@ -14,9 +15,9 @@ class SeederHttpService() {
         } ~
         path("rss-list") {
           // TODO: call hbase - get list of all rss url
-          val hBaseService = HBaseService
+          val hBaseModel = HBaseModel
 
-          hBaseService.getRssList()
+          hBaseModel.getRssList()
           complete(StatusCodes.OK, HttpEntity.Empty)
         }
       }

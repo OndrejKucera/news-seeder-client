@@ -6,5 +6,5 @@ services:
     image: news-seeder-client
     hostname: seeder-client
     ports:
-      - "80"
+      - "8181:8181"
     restart: on-failure
