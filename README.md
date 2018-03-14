@@ -20,6 +20,7 @@ docker build -t news-seeder-client .
 ##  Scala style
 - sbt scalastyleGenerateConfig
 - sbt scalastyle
+- sbt scalastyle compile
 
 ## Test coverage
 - sbt clean coverage test

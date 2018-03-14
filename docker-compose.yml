@@ -3,8 +3,16 @@ version: '2'
 services:
 
   news-seeder-client:
+    container_name: news-seeder-client
+    networks: ["vnet"]
+    hostname: seeder-client-1.vnet
     image: news-seeder-client
-    hostname: seeder-client
     ports:
       - "8181:8181"
-    restart: on-failure
+    environment:
+      - HADOOP_ZOOKEEPER_QUORUM=zookeeper-1.vnet:2181
+
+networks:
+  vnet:
+    external:
+      name: vnet
