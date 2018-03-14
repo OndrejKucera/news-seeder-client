@@ -47,7 +47,7 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http" % akkaHttpV,
 
-  "org.apache.hadoop"   % "hadoop-common"  % "2.7.5"
+  "org.apache.hadoop"   % "hadoop-common"  % "2.7.3"
     exclude ("com.google.guava", "guava")
     exclude ("io.netty", "netty"),
   "org.apache.hbase"    % "hbase-common"   % "1.2.6",
