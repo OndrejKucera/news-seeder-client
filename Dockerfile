@@ -1,4 +1,4 @@
-FROM ondrejkucera/news-base-docker-debian
+FROM ondrejkucera/news-debian-base-docker
 MAINTAINER Ondrej Kucera <ondra.kuca@gmail.com>
 
 
