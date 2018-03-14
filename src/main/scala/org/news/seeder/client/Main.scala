@@ -8,18 +8,20 @@ import akka.stream.ActorMaterializer
 import com.typesafe.config.ConfigFactory
 import org.news.seeder.client.http.SeederHttpService
 
+import scala.concurrent.ExecutionContextExecutor
+
 object Main extends App with Directives {
 
   private val config = ConfigFactory.load()
 
-  implicit val system = ActorSystem("news-seeder-client", config)
-  implicit val materializer = ActorMaterializer()
-  // needed for the future flatMap/onComplete in the end
-  implicit val executionContext = system.dispatcher
+  implicit val system: ActorSystem = ActorSystem("news-seeder-client", config)
+  implicit val materializer: ActorMaterializer = ActorMaterializer()
+  implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
-  val log = Logging(system, this.getClass)
+  private val log = Logging(system, this.getClass)
 
-  log.info("\n===== Starting Seeder Client =====")
-  Http().bindAndHandle(new SeederHttpService().routes, "0.0.0.0", 8181)
+  log.info("===== Starting Seeder Client =====")
+
+  Http().bindAndHandle(new SeederHttpService().routes,
+    config.getString("http.interface"), config.getInt("http.port"))
 }
-

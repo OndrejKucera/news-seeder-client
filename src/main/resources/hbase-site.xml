@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+    <!--<property>-->
+        <!--<name>hbase.rootdir</name>-->
+        <!--<value>?</value>-->
+        <!--<description>The directory shared by region servers and into-->
+            <!--which HBase persists.  The URL should be 'fully-qualified'-->
+            <!--to include the filesystem scheme.  For example, to specify the-->
+            <!--HDFS directory '/hbase' where the HDFS instance's namenode is-->
+            <!--running at namenode.example.org on port 9000, set this value to:-->
+            <!--hdfs://namenode.example.org:9000/hbase.  By default, we write-->
+            <!--to whatever ${hbase.tmp.dir} is set too &#45;&#45; usually /tmp &#45;&#45;-->
+            <!--so change this configuration or else all data will be lost on-->
+            <!--machine restart.</description>-->
+    <!--</property>-->
+    <property>
+        <name>hbase.zookeeper.quorum</name>
+        <value>${?HADOOP_ZOOKEEPER_QUORUM}</value>
+        <description>Comma separated list of servers in the ZooKeeper ensemble
+            (This config. should have been named hbase.zookeeper.ensemble).
+            For example, "host1.mydomain.com,host2.mydomain.com,host3.mydomain.com".
+            By default this is set to localhost for local and pseudo-distributed modes
+            of operation. For a fully-distributed setup, this should be set to a full
+            list of ZooKeeper ensemble servers. If HBASE_MANAGES_ZK is set in hbase-env.sh
+            this is the list of servers which hbase will start/stop ZooKeeper on as
+            part of cluster start/stop.  Client-side, we will take this list of
+            ensemble members and put it together with the hbase.zookeeper.property.clientPort
+            config. and pass it into zookeeper constructor as the connectString
+            parameter.</description>
+    </property>
+</configuration>

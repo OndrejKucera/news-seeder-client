@@ -50,13 +50,14 @@ libraryDependencies ++= Seq(
   "org.apache.hadoop"   % "hadoop-common"  % "2.7.5"
     exclude ("com.google.guava", "guava")
     exclude ("io.netty", "netty"),
-  "org.apache.hbase"    % "hbase-common"   % "1.4.0",
-  "org.apache.hbase"    % "hbase-client"   % "1.4.0"
+  "org.apache.hbase"    % "hbase-common"   % "1.2.6",
+  "org.apache.hbase"    % "hbase-client"   % "1.2.6"
 )
 
-coverageMinimum := 80
-coverageFailOnMinimum := true
-coverageEnabled := true
+// test coverage
+//coverageMinimum := 80
+//coverageFailOnMinimum := true
+//coverageEnabled := true
 
 // use /tmp for building assembly to avoid IO between docker vm and host
 assemblyOption in assembly := (assemblyOption in assembly).value

@@ -1,4 +1,4 @@
-package org.news.seeder.client.model
+package org.news.seeder.client.api
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.hbase.client._
@@ -8,19 +8,17 @@ import org.apache.hadoop.hbase.{CellUtil, HBaseConfiguration, TableName}
 
 object HBaseModel {
 
-  // TODO: config -> zookeper, table_name
+  // TODO: load config
 
+  val conf : Configuration = HBaseConfiguration.create()
+//  conf.set("hbase.zookeeper.quorum", "zookeeper-1.vnet:2181")
+
+  private val connection = ConnectionFactory.createConnection(conf)
+  // TODO: load table
+  private val table = connection.getTable(TableName.valueOf(Bytes.toBytes("rss_table") ) )
 
 
   def getRssList(): List[String] = {
-    val conf : Configuration = HBaseConfiguration.create()
-
-    val ZOOKEEPER_QUORUM = "WRITE THE ZOOKEEPER CLUSTER THAT HBASE SHOULD USE"
-    conf.set("hbase.zookeeper.quorum", ZOOKEEPER_QUORUM)
-
-    val connection = ConnectionFactory.createConnection(conf)
-    val table = connection.getTable(TableName.valueOf(Bytes.toBytes("emostafa:rss_table") ) )
-
     val scan = table.getScanner(new Scan())
 
     var result: Result = scan.next()
