@@ -1,48 +1,53 @@
 package org.news.seeder.client.api
 
+import akka.event.Logging
 import org.apache.hadoop.conf.Configuration
-import org.apache.hadoop.hbase.client._
+import org.apache.hadoop.hbase.client.{Connection, ConnectionFactory, Table}
 import org.apache.hadoop.hbase.util.Bytes
-import org.apache.hadoop.hbase.{CellUtil, HBaseConfiguration, TableName}
+import org.apache.hadoop.hbase.{HBaseConfiguration, TableName}
+import org.news.seeder.client.Main.system
 
 
 object HBaseModel {
 
-  // TODO: load config
+  private val log = Logging(system, this.getClass)
+  var table: Table = _
+  private var connection: Connection = _
 
-  val conf : Configuration = HBaseConfiguration.create()
-//  conf.set("hbase.zookeeper.quorum", "zookeeper-1.vnet:2181")
+  def apply(tableName :String): this.type = {
+    val hBaseConfig = initHBaseConfig()
+    table = getTable(tableName, hBaseConfig)
+    checkHBase()
+    log.info("The connection with HBase was established")
+    this
+  }
 
-  private val connection = ConnectionFactory.createConnection(conf)
-  // TODO: load table
-  private val table = connection.getTable(TableName.valueOf(Bytes.toBytes("rss_table") ) )
+  def apply(): Unit = {
+    log.error("Don't use this constructor")
+    // TODO: error
+  }
 
+  private def initHBaseConfig(): Configuration = {
+    val hBaseConfig = HBaseConfiguration.create()
+    hBaseConfig.addResource("hbase-site.xml")
+    hBaseConfig
+  }
 
-  def getRssList(): List[String] = {
-    val scan = table.getScanner(new Scan())
+  private def getTable(tableName: String, hBaseConfig: Configuration): Table = {
+    connection = ConnectionFactory.createConnection(hBaseConfig)
+    connection.getTable(TableName.valueOf(Bytes.toBytes(tableName)))
+  }
 
-    var result: Result = scan.next()
-    while (result != null) {
-      printRow(result)
-      result = scan.next()
+  private def checkHBase(): Unit = {
+    if (table.getName.getNameAsString != "rss_table") {
+      log.error("The connection could not be established")
+      // TODO: crash when the connection doesnt work
     }
+  }
 
+  def close (): Unit = {
     table.close()
     connection.close()
-
-    List()
   }
-
-  def printRow(result : Result) = {
-    val cells = result.rawCells()
-    print( Bytes.toString(result.getRow) + " : " )
-    for(cell <- cells){
-      val col_name = Bytes.toString(CellUtil.cloneQualifier(cell))
-      val col_value = Bytes.toString(CellUtil.cloneValue(cell))
-      print("(%s,%s) ".format(col_name, col_value))
-    }
-    println()
-  }
-
 
 }
