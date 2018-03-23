@@ -17,7 +17,7 @@
     <!--</property>-->
     <property>
         <name>hbase.zookeeper.quorum</name>
-        <value>${?HADOOP_ZOOKEEPER_QUORUM}</value>
+        <value>zookeeper-1.vnet:2181</value>
         <description>Comma separated list of servers in the ZooKeeper ensemble
             (This config. should have been named hbase.zookeeper.ensemble).
             For example, "host1.mydomain.com,host2.mydomain.com,host3.mydomain.com".
