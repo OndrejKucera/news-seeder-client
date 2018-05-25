@@ -1,29 +1,28 @@
 # news-seeder-client
 
-master build: .....
+### Build the project
+- **build project**
+  - sbt package
 
-## build the project
+- **build docker image**
+  - docker build -t news-seeder-client .
 
-### build project
-- sbt assembly
+- **run/kill service in docker**
+  - docker-compose up -d
+  - docker-compose down -v
 
-### build docker image
-docker build -t news-seeder-client .
+### Check the API
+- **check the connection**
+  - curl -i http://0.0.0.0:8181/seeder/health
+- **get list of rss**
+  - curl -i http://0.0.0.0:8181/seeder/rss-list
+- **save rss**
+  - curl -H "Content-Type:application/json" -X POST -d '{"url": "http://you.url"}' http://localhost:8080/seeder/rss
+- **delete rss**
+  - curl -H "Content-Type:application/json" -X DELETE -d '{"url": "http://you.url"}' http://localhost:8080/seeder/rss
 
-### run/kill service in docker
-- docker-compose up -d
-- docker-compose down -v
-
-### check the connection
-- curl -i http://0.0.0.0:8181/seeder/health
-
-##  Scala style
-- sbt scalastyleGenerateConfig
-- sbt scalastyle
-- sbt scalastyle compile
-
-## Test coverage
+### Test coverage
 - sbt clean coverage test
 
-## Dependency tree
+### Dependency tree
 - dependencyTree
