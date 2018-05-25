@@ -1,71 +1,24 @@
-import sbtassembly.MergeStrategy
+lazy val akkaHttpVersion = "10.1.1"
+lazy val akkaVersion     = "2.5.12"
+lazy val alpakkaVersion  = "0.19"
 
-name := "news-seeder-client"
-organization := "org.news"
+lazy val root = (project in file(".")).
+  settings(
+    name            := "news-seeder-client",
+    version         := "0.2.0-SNAPSHOT",
+    organization    := "org.news",
+    scalaVersion    := "2.12.6",
+    libraryDependencies ++= Seq(
+      "com.typesafe.akka" %% "akka-http"            % akkaHttpVersion,
+      "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpVersion,
+      "com.typesafe.akka" %% "akka-http-xml"        % akkaHttpVersion,
+      "com.typesafe.akka" %% "akka-stream"          % akkaVersion,
 
-version := "0.1.0"
-scalaVersion := "2.11.12"
+      "com.lightbend.akka" %% "akka-stream-alpakka-cassandra" % alpakkaVersion,
 
-scalacOptions ++= Seq(
-  "-encoding",
-  "utf-8",
-  "-explaintypes",
-  "-feature",
-  "-unchecked",
-  "-deprecation",
-  "-language:postfixOps",
-  "-language:existentials",
-  "-language:experimental.macros",
-  "-language:higherKinds",
-  "-language:implicitConversions",
-  "-Xcheckinit",
-  "-Xlint",
-  "-Xlint:inaccessible",
-  "-Xlint:nullary-override",
-  "-Xlint:nullary-unit",
-  "-Xlint:option-implicit",
-  "-Xlint:package-object-classes",
-  "-Xlint:poly-implicit-overload",
-  "-Xlint:private-shadow",
-  "-Xlint:unsound-match",
-  "-Xlint:missing-interpolator",
-  "-Xfuture",
-  "-Yrangepos",
-  "-Ywarn-dead-code",
-  "-Ywarn-inaccessible",
-  "-Ywarn-value-discard",
-  "-Ywarn-unused-import",
-  "-Ywarn-unused"
-)
-
-val akkaHttpV = "10.0.11"
-
-resolvers ++= Seq(
-  "Apache Repository" at "https://repository.apache.org/content/repositories/releases/"
-)
-
-libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-http" % akkaHttpV,
-
-  "org.apache.hadoop"   % "hadoop-common"  % "2.7.3"
-    exclude ("com.google.guava", "guava")
-    exclude ("io.netty", "netty"),
-  "org.apache.hbase"    % "hbase-common"   % "1.2.6",
-  "org.apache.hbase"    % "hbase-client"   % "1.2.6"
-)
-
-// test coverage
-//coverageMinimum := 80
-//coverageFailOnMinimum := true
-//coverageEnabled := true
-
-// use /tmp for building assembly to avoid IO between docker vm and host
-assemblyOption in assembly := (assemblyOption in assembly).value
-  .copy(assemblyDirectory = new File("/tmp/sbt-assembly"))
-
-assemblyMergeStrategy in assembly := {
-  case PathList("org", "apache", xs @ _*) => MergeStrategy.last
-  case x =>
-    val oldStrategy = (assemblyMergeStrategy in assembly).value
-    oldStrategy(x)
-}
+      "com.typesafe.akka" %% "akka-http-testkit"    % akkaHttpVersion % Test,
+      "com.typesafe.akka" %% "akka-testkit"         % akkaVersion     % Test,
+      "com.typesafe.akka" %% "akka-stream-testkit"  % akkaVersion     % Test,
+      "org.scalatest"     %% "scalatest"            % "3.0.1"         % Test
+    )
+  )
