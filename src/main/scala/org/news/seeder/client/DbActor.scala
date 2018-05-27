@@ -3,10 +3,6 @@ package org.news.seeder.client
 import akka.actor.{ Actor, ActorLogging, Props }
 import org.news.seeder.client.db.{ DbAPI, DbCassandra, DbMock }
 
-final case class Rss(url: String, valid: Boolean)
-
-final case class RssList(rssList: List[Rss])
-
 object DbActor {
 
   final case class ActionPerformed(message: String)
@@ -28,7 +24,7 @@ class DbActor(db: DbAPI) extends Actor with ActorLogging {
 
   def receive: Receive = {
     case GetRssList =>
-      sender() ! db.getRssList()
+      sender() ! db.getRssList
     case CreateRss(url) =>
       sender() ! db.createRss(url)
     case DeleteRss(url) =>

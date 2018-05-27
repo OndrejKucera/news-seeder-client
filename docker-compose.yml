@@ -12,6 +12,10 @@ services:
     environment:
       - HADOOP_ZOOKEEPER_QUORUM=zookeeper-1.vnet:2181
 
+#  cassandra:
+#    https://hub.docker.com/_/cassandra/
+
+
 networks:
   vnet:
     external:
